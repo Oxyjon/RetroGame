@@ -38,8 +38,8 @@ var Module = typeof Module != 'undefined' ? Module : {};
         // web worker
         PACKAGE_PATH = encodeURIComponent(location.pathname.toString().substring(0, location.pathname.toString().lastIndexOf('/')) + '/');
       }
-      var PACKAGE_NAME = '../../../bin/Emscripten/HelloRaylib/HelloRaylib.data';
-      var REMOTE_PACKAGE_BASE = 'HelloRaylib.data';
+      var PACKAGE_NAME = '../../../bin/Emscripten/RetroGame/RetroGame.data';
+      var REMOTE_PACKAGE_BASE = 'RetroGame.data';
       if (typeof Module['locateFilePackage'] === 'function' && !Module['locateFile']) {
         Module['locateFile'] = Module['locateFilePackage'];
         err('warning: you defined Module.locateFilePackage, that has been renamed to Module.locateFile (using your locateFilePackage for now)');
@@ -172,10 +172,10 @@ Module['FS_createPath']("/", "assets", true, true);
           var files = metadata['files'];
           for (var i = 0; i < files.length; ++i) {
             DataRequest.prototype.requests[files[i].filename].onload();
-          }          Module['removeRunDependency']('datafile_../../../bin/Emscripten/HelloRaylib/HelloRaylib.data');
+          }          Module['removeRunDependency']('datafile_../../../bin/Emscripten/RetroGame/RetroGame.data');
 
       };
-      Module['addRunDependency']('datafile_../../../bin/Emscripten/HelloRaylib/HelloRaylib.data');
+      Module['addRunDependency']('datafile_../../../bin/Emscripten/RetroGame/RetroGame.data');
 
       if (!Module.preloadResults) Module.preloadResults = {};
 
@@ -196,7 +196,7 @@ Module['FS_createPath']("/", "assets", true, true);
     }
 
     }
-    loadPackage({"files": [{"filename": "/assets/.gitkeep", "start": 0, "end": 0}], "remote_package_size": 0, "package_uuid": "5069d43b-9e59-444e-9988-05d4460bf2d9"});
+    loadPackage({"files": [{"filename": "/assets/.gitkeep", "start": 0, "end": 0}], "remote_package_size": 0, "package_uuid": "561cfbc4-5a93-41b9-8ce7-e51c1ac7edd0"});
 
   })();
 
@@ -1698,7 +1698,7 @@ function createExportWrapper(name, fixedasm) {
 }
 
 var wasmBinaryFile;
-  wasmBinaryFile = 'HelloRaylib.wasm';
+  wasmBinaryFile = 'RetroGame.wasm';
   if (!isDataURI(wasmBinaryFile)) {
     wasmBinaryFile = locateFile(wasmBinaryFile);
   }
