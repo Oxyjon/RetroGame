@@ -53,5 +53,3 @@ elseif(MSVC)
         "${CMAKE_HOME_DIRECTORY}/projects/${PROJECT_NAME}/assets" "${EXECUTABLE_OUTPUT_PATH}/assets")
 endif()
 
-
-add_subdirectory ("projects/RetroGame")
