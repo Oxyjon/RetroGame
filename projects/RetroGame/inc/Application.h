@@ -1,21 +1,26 @@
 #pragma once
+#include <string>
 
-class Game;
+
+//Predeclate classes
+//---------------------------------------------------
+class GameStateManager;
 
 class Application
 {
 public:
-
 	Application();
 	~Application();
 
 	void Run();
+	void Draw();
+	void Update(float deltaTime);
 
-	void GameLoop();
-
+	GameStateManager* GetGameStateManager()
+	{
+		return m_gameStateManager;
+	}
 protected:
 private:
-
-	Game* m_game = nullptr;
+	GameStateManager* m_gameStateManager = nullptr;
 };
-

@@ -1,64 +1,77 @@
 #include "Application.h"
+#include <iostream>
 #include "raylib.h"
-#include "Game.h"
+#include "GameStateManager.h"
+#include "IGameState.h"
+#include "SplashState.h"
+#include "MenuState.h"
+#include "PlayState.h"
+#include "LoadState.h"
+#include "Config.h"
+#include "Assets.h"
 
-#ifdef __EMSCRIPTEN__
-#include <emscripten.h>
 
-struct EmscriptenGameLoopFunc
-{
-	static void Execute() { app->GameLoop(); }
-	static Application* app;
-};
-Application* EmscriptenGameLoopFunc::app = nullptr;
+#define RAYGUI_IMPLEMENTATION
+#define RAYGUI_SUPPORT_ICONS
 
-#endif
+
 
 Application::Application()
 {
-
+    std::cout << "Constructor Online" << std::endl;
 }
 
 Application::~Application()
 {
-
+    std::cout << "Destructor Online" << std::endl;
 }
+
 
 void Application::Run()
 {
-	m_game = new Game();
+    InitWindow(config.game.screenWidth, config.game.screenHeight, config.game.windowTitle);
+    SetTargetFPS(60);
 
-	InitWindow(m_game->windowWidth, m_game->windowHeight, m_game->windowTitle);
-	SetTargetFPS(60);
+    Assets::LoadAssets();
+    m_gameStateManager = new GameStateManager();
+    m_gameStateManager->SetState("Splash", new SplashState(this));
+    m_gameStateManager->SetState("Menu", new MenuState(this));
+    m_gameStateManager->SetState("Loading", new LoadState(this));
+    m_gameStateManager->SetState("Play", new PlayState(this));
+    m_gameStateManager->PushState("Splash");
 
-	m_game->Load();
 
-	#ifdef __EMSCRIPTEN__
-		// The browser requires the main loop to be executed in a callback
-		// this way infinite loops do not crash the browser
-		EmscriptenGameLoopFunc::app = this;
-		emscripten_set_main_loop(EmscriptenGameLoopFunc::Execute, 0, 1);
-	#else
-		// On windows, we control our own main loop
-		// run until the m_quitApplication has been set to true
-		while (!m_game->shouldQuit)
-			GameLoop();
-	#endif
 
-	m_game->UnLoad();
+    // Main game loop
 
-	// clearnup
-	CloseWindow();
+    while (!config.game.exitWindow)
+    {
+        if (IsKeyPressed(KEY_ESCAPE) || WindowShouldClose()) config.game.exitWindow = true;
+        
+        float dt = GetFrameTime();
+        Update(dt);
+        Draw();
+        
+    }
 
-	delete m_game;
-	m_game = nullptr;
+    delete m_gameStateManager;
+
+    Assets::UnloadAssets();
+    CloseWindow();
 }
-
-void Application::GameLoop()
+void Application::Update(float deltaTime)
 {
-	m_game->shouldQuit = m_game->shouldQuit || WindowShouldClose();
+    //Update Logic Goes Here
+    m_gameStateManager->Update(deltaTime);
+}
+void Application::Draw()
+{
+    //Draw Logic Goes Here
+    BeginDrawing();
 
-	m_game->Update();
-	m_game->Draw();
+    ClearBackground(BLACK);
+    //DrawTexture(Assets::backgroundImg, 0, 0, WHITE);
+    m_gameStateManager->Draw();
 
+    EndDrawing();
 }
