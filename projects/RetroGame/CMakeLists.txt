@@ -8,7 +8,7 @@ FILE(GLOB Proj_C_Files src/*.c)
 FILE(GLOB Proj_CPP_Files src/*.cpp)
 FILE(GLOB Proj_H_Files inc/*.h)
 FILE(GLOB Proj_HPP_Files inc/*.hpp)
-add_executable (${PROJECT_NAME} ${Proj_C_Files} ${Proj_CPP_Files} ${Proj_H_Files} ${Proj_HPP_Files})
+add_executable (${PROJECT_NAME} ${Proj_C_Files} ${Proj_CPP_Files} ${Proj_H_Files} ${Proj_HPP_Files}   "inc/Game.h" "src/Game.cpp")
 
 include_directories("inc;")
 

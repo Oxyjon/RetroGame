@@ -23,6 +23,11 @@ void Game::UnLoad()
 
 void Game::Update()
 {
+
+}
+
+void Game::Draw()
+{
 	BeginDrawing();
 
 	ClearBackground(RAYWHITE);
@@ -30,10 +35,5 @@ void Game::Update()
 	DrawText("Congrats! You created your first Pong Game!", 190, 200, 20, LIGHTGRAY);
 
 	EndDrawing();
-}
-
-void Game::Draw()
-{
-
 }
 

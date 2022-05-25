@@ -14,6 +14,17 @@
 #define RAYGUI_IMPLEMENTATION
 #define RAYGUI_SUPPORT_ICONS
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+
+struct EmscriptenGameLoopFunc
+{
+    static void Execute() { app->GameLoop(); }
+    static Application* app;
+};
+Application* EmscriptenGameLoopFunc::app = nullptr;
+
+#endif
 
 
 Application::Application()
@@ -74,4 +85,13 @@ void Application::Draw()
     m_gameStateManager->Draw();
 
     EndDrawing();
+}
+
+void Application::GameLoop(float deltaTime)
+{
+    //m_game->shouldQuit = m_game->shouldQuit || WindowShouldClose();
+
+    Update(deltaTime);
+    Draw();
+
 }

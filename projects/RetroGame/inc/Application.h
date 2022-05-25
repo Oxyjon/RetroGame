@@ -20,6 +20,8 @@ public:
 	{
 		return m_gameStateManager;
 	}
+
+	void GameLoop(float deltaTime);
 protected:
 private:
 	GameStateManager* m_gameStateManager = nullptr;
