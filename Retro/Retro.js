@@ -38,8 +38,8 @@ var Module = typeof Module != 'undefined' ? Module : {};
         // web worker
         PACKAGE_PATH = encodeURIComponent(location.pathname.toString().substring(0, location.pathname.toString().lastIndexOf('/')) + '/');
       }
-      var PACKAGE_NAME = '../../../bin/Emscripten/RetroGame/RetroGame.data';
-      var REMOTE_PACKAGE_BASE = 'RetroGame.data';
+      var PACKAGE_NAME = '../../../bin/Emscripten/Retro/Retro.data';
+      var REMOTE_PACKAGE_BASE = 'Retro.data';
       if (typeof Module['locateFilePackage'] === 'function' && !Module['locateFile']) {
         Module['locateFile'] = Module['locateFilePackage'];
         err('warning: you defined Module.locateFilePackage, that has been renamed to Module.locateFile (using your locateFilePackage for now)');
@@ -172,10 +172,10 @@ Module['FS_createPath']("/", "assets", true, true);
           var files = metadata['files'];
           for (var i = 0; i < files.length; ++i) {
             DataRequest.prototype.requests[files[i].filename].onload();
-          }          Module['removeRunDependency']('datafile_../../../bin/Emscripten/RetroGame/RetroGame.data');
+          }          Module['removeRunDependency']('datafile_../../../bin/Emscripten/Retro/Retro.data');
 
       };
-      Module['addRunDependency']('datafile_../../../bin/Emscripten/RetroGame/RetroGame.data');
+      Module['addRunDependency']('datafile_../../../bin/Emscripten/Retro/Retro.data');
 
       if (!Module.preloadResults) Module.preloadResults = {};
 
@@ -196,7 +196,7 @@ Module['FS_createPath']("/", "assets", true, true);
     }
 
     }
-    loadPackage({"files": [{"filename": "/assets/.gitkeep", "start": 0, "end": 0}], "remote_package_size": 0, "package_uuid": "b1e32b60-89aa-4075-814a-9212422cb0ca"});
+    loadPackage({"files": [{"filename": "/assets/.gitkeep", "start": 0, "end": 0}], "remote_package_size": 0, "package_uuid": "fa8017a5-684c-462b-a8c4-922a5fe9d010"});
 
   })();
 
@@ -1698,7 +1698,7 @@ function createExportWrapper(name, fixedasm) {
 }
 
 var wasmBinaryFile;
-  wasmBinaryFile = 'RetroGame.wasm';
+  wasmBinaryFile = 'Retro.wasm';
   if (!isDataURI(wasmBinaryFile)) {
     wasmBinaryFile = locateFile(wasmBinaryFile);
   }
