@@ -31,7 +31,7 @@ endif()
 add_subdirectory ("projects/HelloRaylib")
 add_subdirectory ("projects/Pong")
 # TODO: add any additional sub projects here!
-add_subdirectory ("projects/RetroGame")
+add_subdirectory ("projects/Retro")
 
 
 # =============================================================================
