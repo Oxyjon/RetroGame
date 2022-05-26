@@ -12,19 +12,22 @@ add_executable (${PROJECT_NAME} ${Proj_C_Files} ${Proj_CPP_Files} ${Proj_H_Files
 
 include_directories("inc;")
 
-# DEFINE OUTPUT DIRECTORY
-# =============================================================================
-if (EMSCRIPTEN)
-    
-    set(USE_FLAGS "-s USE_GLFW=3 -s ASSERTIONS=1 -s ASYNCIFY --preload-file ${CMAKE_HOME_DIRECTORY}/projects/${PROJECT_NAME}/assets/@/assets/")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS}")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${USE_FLAGS}")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${USE_FLAGS}")
-
-	set(CMAKE_EXECUTABLE_SUFFIX ".html")
-
-endif()
-
+ # DEFINE OUTPUT DIRECTORY
+ # =============================================================================
+ if (EMSCRIPTEN)
+     
+     set(USE_FLAGS "-s USE_GLFW=3 -s ASSERTIONS=1 -s ASYNCIFY --preload-file ${CMAKE_HOME_DIRECTORY}/projects/${PROJECT_NAME}/assets/@/assets/")
+     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS}")
+     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${USE_FLAGS}")
+     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${USE_FLAGS}")
+ 
+ 	set(CMAKE_EXECUTABLE_SUFFIX ".html")
+ 
+ endif()
+#if (EMSCRIPTEN)
+#  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY")
+#  set(CMAKE_EXECUTABLE_SUFFIX ".html") # This line is used to set your executable to build with the emscripten html template so taht you can directly open it.
+# endif ()
 set(CMAKE_BINARY_DIR "${CMAKE_HOME_DIRECTORY}/bin/${CMAKE_BUILD_TYPE}/${PROJECT_NAME}/")
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 

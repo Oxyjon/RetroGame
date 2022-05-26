@@ -1,15 +1,13 @@
-
-#include <iostream>
 #include "Application.h"
+#include "raylib.h"
 
-
-
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
-	{
-		Application app;
-		app.Run();
-	}
+    {
 
-	return 0;
+        Application app;
+        app.Run();
+
+    }
+    return 0;
 }
