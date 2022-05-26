@@ -196,7 +196,7 @@ Module['FS_createPath']("/", "assets", true, true);
     }
 
     }
-    loadPackage({"files": [{"filename": "/assets/Background.png", "start": 0, "end": 10956}, {"filename": "/assets/BrownBrick2.png", "start": 10956, "end": 11115}, {"filename": "/assets/Player.png", "start": 11115, "end": 11385}, {"filename": "/assets/.gitkeep", "start": 11385, "end": 11385}, {"filename": "/assets/ShieldVert.png", "start": 11385, "end": 11534}, {"filename": "/assets/GreenBrick.png", "start": 11534, "end": 11714}, {"filename": "/assets/Ball.png", "start": 11714, "end": 11894}, {"filename": "/assets/ShieldHoriz.png", "start": 11894, "end": 12011}, {"filename": "/assets/BrownBrick.png", "start": 12011, "end": 12245}], "remote_package_size": 12245, "package_uuid": "059fe989-bb73-4985-8772-446aead8b27c"});
+    loadPackage({"files": [{"filename": "/assets/Background.png", "start": 0, "end": 10956}, {"filename": "/assets/BrownBrick2.png", "start": 10956, "end": 11115}, {"filename": "/assets/Player.png", "start": 11115, "end": 11385}, {"filename": "/assets/.gitkeep", "start": 11385, "end": 11385}, {"filename": "/assets/ShieldVert.png", "start": 11385, "end": 11534}, {"filename": "/assets/GreenBrick.png", "start": 11534, "end": 11714}, {"filename": "/assets/Ball.png", "start": 11714, "end": 11894}, {"filename": "/assets/ShieldHoriz.png", "start": 11894, "end": 12011}, {"filename": "/assets/BrownBrick.png", "start": 12011, "end": 12245}], "remote_package_size": 12245, "package_uuid": "e62c40bc-242d-4bab-b14c-fb7f8baf961b"});
 
   })();
 
