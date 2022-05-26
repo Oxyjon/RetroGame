@@ -29,15 +29,11 @@ void PlayState::Load()
 {
 	//Load initial objects in game
 	//Player
-	if (player == nullptr)
-	{
-		player = new Player(config.game.playerStartingPosition);
-	}
+	player.SetPos(config.game.playerStartingPosition);
+
 	//Ball
-	if (ball == nullptr)
-	{
-		ball = new Ball({ 300,250 }, { 0.707f, 0.707f });
-	}
+	ball.SetPos({ 300,250 });
+	ball.SetDir({ 0.707f, 0.707f });
 	//Brick
 	for (int i = 0; i < config.game.NUM_ROWS; i++)
 	{
@@ -72,8 +68,6 @@ void PlayState::Load()
 void PlayState::UnLoad()
 {
 	std::cout << "UNLOADING" << std::endl;
-	if (player != nullptr) delete player;
-	if (ball != nullptr) delete ball;
 	for (int i = 0; i < config.game.NUM_ROWS; i++)
 	{
 		for (int j = 0; j < config.game.NUM_COLS; j++)
@@ -100,15 +94,15 @@ void PlayState::Update(float dt)
 	if (!config.game.isGameOver)
 	{
 		//Game Updates and collisions	
-		player->Update(dt);
+		player.Update(dt);
 		UpdateShield();
-		HandleBallWallCollision(ball);
-		HandleBallBrickCollision(ball);
-		ball->Update(dt);
-		HandleBallPlayerCollision(player, ball);
-		HandleBallShieldCollision(ball);
-		HandleBrickPlayerCollision(player);
-		HandlePlayerWallCollision(player);
+		HandleBallWallCollision();
+		HandleBallBrickCollision();
+		ball.Update(dt);
+		HandleBallPlayerCollision();
+		HandleBallShieldCollision();
+		HandleBrickPlayerCollision();
+		HandlePlayerWallCollision();
 		//Check Win
 		if (CheckWin())
 		{			
@@ -137,8 +131,8 @@ void PlayState::Draw()
 				}
 			}
 		}
-		player->Draw();
-		ball->Draw();
+		player.Draw();
+		ball.Draw();
 		DrawShield();
 	}
 	else
@@ -160,41 +154,41 @@ void PlayState::Draw()
 
 }
 
-void PlayState::HandleBallWallCollision(Ball* b)
+void PlayState::HandleBallWallCollision()
 {
 	//Ball to Wall Collision
-	Vector2 ballPos = b->GetPos();
-	Vector2 ballDir = b->GetDir();
+	Vector2 ballPos = ball.m_pos;
+	Vector2 ballDir = ball.GetDir();
 
 	//Left
-	if (ballPos.x < 0) b->SetDir({ -ballDir.x, ballDir.y });
+	if (ballPos.x < 0) ball.SetDir({ -ballDir.x, ballDir.y });
 	//Right
-	if (ballPos.x > config.game.screenWidth) b->SetDir({ -ballDir.x, ballDir.y });
+	if (ballPos.x > config.game.screenWidth) ball.SetDir({ -ballDir.x, ballDir.y });
 	//Top
-	if (ballPos.y < 0)  b->SetDir({ ballDir.x, -ballDir.y });
+	if (ballPos.y < 0)  ball.SetDir({ ballDir.x, -ballDir.y });
 	//Bottom
-	if (ballPos.y > config.game.screenHeight) b->SetDir({ ballDir.x, -ballDir.y });
+	if (ballPos.y > config.game.screenHeight) ball.SetDir({ ballDir.x, -ballDir.y });
 }
 
-void PlayState::HandlePlayerWallCollision(Player* p)
+void PlayState::HandlePlayerWallCollision()
 {
 	//Player To Wall Collision
-	Vector2 playerPos = p->GetPos();
+	Vector2 playerPos = player.m_pos;
 	//Left Wall
-	if (playerPos.x < 0) p->SetPos({ 0, playerPos.y });
+	if (playerPos.x < 0) player.SetPos({ 0, playerPos.y });
 	//Right Wall
-	if (playerPos.x > config.game.screenWidth - p->size.x) p->SetPos({ config.game.screenWidth - p->size.x, playerPos.y });
+	if (playerPos.x > config.game.screenWidth - player.size.x) player.SetPos({ config.game.screenWidth - player.size.x, playerPos.y });
 	//Top Wall
-	if (playerPos.y < 0) p->SetPos({ playerPos.x, 0 });
+	if (playerPos.y < 0) player.SetPos({ playerPos.x, 0 });
 	//Bottom Wall
-	if (playerPos.y > config.game.screenHeight - p->size.y) p->SetPos({ playerPos.x, config.game.screenHeight - p->size.y });
+	if (playerPos.y > config.game.screenHeight - player.size.y) player.SetPos({ playerPos.x, config.game.screenHeight - player.size.y });
 }
 
-void PlayState::HandleBallBrickCollision(Ball* b)
+void PlayState::HandleBallBrickCollision()
 {
 	//Ball to Brick Collision
-	Vector2 ballPos = b->GetPos();
-	Vector2 ballDir = b->GetDir();
+	Vector2 ballPos = ball.m_pos;
+	Vector2 ballDir = ball.GetDir();
 
 	for (int i = 0; i < config.game.NUM_ROWS; i++)
 	{
@@ -203,7 +197,7 @@ void PlayState::HandleBallBrickCollision(Ball* b)
 			if (bricks[i][j]->isAlive)
 			{
 				//Edges of the brick
-				Vector2 brickPos = bricks[i][j]->GetPos();
+				Vector2 brickPos = bricks[i][j]->m_pos;
 				Vector2 brickSize = bricks[i][j]->GetSize();
 
 				float xPos = brickPos.x;
@@ -214,31 +208,31 @@ void PlayState::HandleBallBrickCollision(Ball* b)
 				//Edges of the ball
 				float ballX = ballPos.x;
 				float ballY = ballPos.y;
-				float ballX2 = ballX + b->radius;
-				float ballY2 = ballY + b->radius;
+				float ballX2 = ballX + ball.radius;
+				float ballY2 = ballY + ball.radius;
 				
 				//Ball to Brick Collision
 				if (ballX > xPos && ballX < xPos2 && ballY > yPos && ballY < yPos2)
 				{
-					b->SetDir({ -ballDir.x, ballDir.y });
+					ball.SetDir({ -ballDir.x, ballDir.y });
 					bricks[i][j]->isAlive = false;
 				}
 
 				if (ballX2 > xPos && ballX2 < xPos2 && ballY > yPos && ballY < yPos2)
 				{
-					b->SetDir({ -ballDir.x, ballDir.y });
+					ball.SetDir({ -ballDir.x, ballDir.y });
 					bricks[i][j]->isAlive = false;
 				}
 
 				if (ballY > yPos && ballY < yPos2 && ballX > xPos && ballX < xPos2)
 				{
-					b->SetDir({ ballDir.x, -ballDir.y });
+					ball.SetDir({ ballDir.x, -ballDir.y });
 					bricks[i][j]->isAlive = false;
 				}
 
 				if (ballY2 > yPos && ballY2 < yPos2 && ballX > xPos && ballX < xPos2)
 				{
-					b->SetDir({ ballDir.x, -ballDir.y });
+					ball.SetDir({ ballDir.x, -ballDir.y });
 					bricks[i][j]->isAlive = false;
 				}
 			}
@@ -298,9 +292,9 @@ void PlayState::ResetGame()
 {
 
 	//Reset Existing Game Objects
-	player->SetPos(config.game.playerStartingPosition);
-	ball->SetPos({ 300,250 });
-	ball->SetDir({ 0.707f, 0.707f });
+	player.SetPos(config.game.playerStartingPosition);
+	ball.SetPos({ 300,250 });
+	ball.SetDir({ 0.707f, 0.707f });
 
 	for (int i = 0; i < config.game.NUM_ROWS; i++)
 	{
@@ -328,13 +322,13 @@ void PlayState::ResetGame()
 
 }
 
-void PlayState::HandleBallPlayerCollision(Player* p, Ball* b)
+void PlayState::HandleBallPlayerCollision()
 {
 	//Ball to Player Collision
-	Vector2 ballPos = b->GetPos();
-	Vector2 playerPos = p->GetPos();
+	Vector2 ballPos = ball.m_pos;
+	Vector2 playerPos = player.m_pos;
 
-	if (ballPos.x > playerPos.x && ballPos.x < playerPos.x + p->size.x && ballPos.y > playerPos.y && ballPos.y < playerPos.y + p->size.y)
+	if (ballPos.x > playerPos.x && ballPos.x < playerPos.x + player.size.x && ballPos.y > playerPos.y && ballPos.y < playerPos.y + player.size.y)
 	{
 		config.game.isGameOver = true;
 		deathCounter++;
@@ -342,18 +336,18 @@ void PlayState::HandleBallPlayerCollision(Player* p, Ball* b)
 
 }
 
-void PlayState::HandleBallShieldCollision(Ball* b)
+void PlayState::HandleBallShieldCollision()
 {
 	//Ball to Shield Collision
-	Vector2 ballPos = b->GetPos();
-	Vector2 ballDir = b->GetDir();
+	Vector2 ballPos = ball.m_pos;
+	Vector2 ballDir = ball.GetDir();
 
 	//Top
 	if (IsKeyPressed(KEY_UP))
 	{
 		if (ballPos.x > shield.x && ballPos.x < (shield.x + shield.width) && ballPos.y >(shield.y - shield.height - reflectDistance) && ballPos.y < shield.y)
 		{
-			b->SetDir({ ballDir.x, -ballDir.y });
+			ball.SetDir({ ballDir.x, -ballDir.y });
 		}
 	}
 	//Right
@@ -361,7 +355,7 @@ void PlayState::HandleBallShieldCollision(Ball* b)
 	{
 		if (ballPos.x > shield.x && ballPos.x < (shield.x + (shield.width * 2 )+ reflectDistance) && ballPos.y > shield.y && ballPos.y < (shield.y + shield.height))
 		{
-			b->SetDir({ -ballDir.x, ballDir.y });
+			ball.SetDir({ -ballDir.x, ballDir.y });
 		}
 	}
 	//Down
@@ -369,7 +363,7 @@ void PlayState::HandleBallShieldCollision(Ball* b)
 	{
 		if (ballPos.x > shield.x && ballPos.x < (shield.x + shield.width) && ballPos.y > shield.y && ballPos.y < (shield.y + (shield.height * 2) + reflectDistance))
 		{
-			b->SetDir({ ballDir.x, -ballDir.y });
+			ball.SetDir({ ballDir.x, -ballDir.y });
 		}
 
 	}
@@ -378,25 +372,25 @@ void PlayState::HandleBallShieldCollision(Ball* b)
 	{
 		if (ballPos.x > shield.x - shield.width - reflectDistance && ballPos.x < shield.x && ballPos.y > shield.y && ballPos.y < (shield.y + shield.height))
 		{
-			b->SetDir({ -ballDir.x, ballDir.y });
+			ball.SetDir({ -ballDir.x, ballDir.y });
 		}
 	}
 	
 }
 
 
-void PlayState::HandleBrickPlayerCollision(Player* p)
+void PlayState::HandleBrickPlayerCollision()
 {
 	//This needs to be corrected
 	////////////////////////////////////////////////////////////////////////
 	//Brick to Player Collision
-	Vector2 playerPos = p->GetPos();
+	Vector2 playerPos = player.m_pos;
 
 	for (int i = 0; i < config.game.NUM_ROWS; i++)
 	{
 		for (int j = 0; j < config.game.NUM_COLS; j++)
 		{
-			Vector2 brickPos = bricks[i][j]->GetPos();
+			Vector2 brickPos = bricks[i][j]->m_pos;
 			Vector2 brickSize = bricks[i][j]->GetSize();
 
 			if(bricks[i][j]->isAlive)
@@ -414,8 +408,8 @@ void PlayState::HandleBrickPlayerCollision(Player* p)
 void PlayState::UpdateShield()
 {
 	//Update shield collision
-	shield.x = player->GetPos().x - player->size.x;
-	shield.y = player->GetPos().y - player->size.y;
+	shield.x = player.m_pos.x - player.size.x;
+	shield.y = player.m_pos.y - player.size.y;
 }
 
 void PlayState::DrawShield()

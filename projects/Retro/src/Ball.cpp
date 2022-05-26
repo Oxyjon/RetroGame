@@ -8,6 +8,11 @@ Ball::Ball(Vector2 pos, Vector2 dir)
     SetDir(dir);
 }
 
+Ball::Ball()
+{
+
+}
+
 Ball::~Ball()
 {
 

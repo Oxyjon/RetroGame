@@ -6,6 +6,7 @@ class Ball : public IGameObject
 {
 public:
 	Ball(Vector2 pos, Vector2 dir);
+	Ball();
 	virtual ~Ball();
 	virtual void Draw();
 	virtual void Update(float deltaTime);

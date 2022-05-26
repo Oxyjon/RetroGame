@@ -40,10 +40,12 @@ void GameStateManager::Draw()
 	}
 }
 
-void GameStateManager::SetState(const char* name, IGameState* state) 
+void GameStateManager::SetState(std::string name, IGameState* state) 
 {
 	m_commands.push_back([=]() {
-		if(m_states[name] != nullptr)
+
+
+		if(m_states.find(name) != m_states.end() && m_states[name] != nullptr)
 		{
 			m_states[name]->UnLoad();
 			delete m_states[name];
@@ -51,22 +53,27 @@ void GameStateManager::SetState(const char* name, IGameState* state)
 
 		m_states[name] = state;
 
-		if (m_states[name] != nullptr)
+		if (m_states.find(name) != m_states.end() && m_states[name] != nullptr)
 		{
 			m_states[name]->Load();
 			
 		}
 	});
 }
-void GameStateManager::PushState(const char* name) 
+void GameStateManager::PushState(std::string name) 
 {
 	m_commands.push_back([=]() {
-		m_stack.push_back(m_states[name]);
-		});
+		auto stateIter = m_states.find(name);
+		if (stateIter != m_states.end())
+		{
+			m_stack.push_back(stateIter->second);
+		}
+		
+	});
 }
 void GameStateManager::PopState() 
 {
 	m_commands.push_back([=]() {
 		m_stack.pop_back();
-		});
+	});
 }

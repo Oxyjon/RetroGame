@@ -7,6 +7,11 @@ Player::Player(Vector2 pos)
     SetPos(pos);  
 }
 
+Player::Player()
+{
+    
+}
+
 Player::~Player()
 {
     std::cout << "Player unload" << std::endl;

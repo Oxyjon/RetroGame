@@ -6,6 +6,7 @@ class Player : public IGameObject
 {
 public:
 	Player(Vector2 pos);
+	Player();
 	virtual ~Player();
 	virtual void Draw();
 	virtual void Update(float deltaTime);

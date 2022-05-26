@@ -26,8 +26,8 @@ void LoadState::Update(float dt)
 	m_timer += dt;
 	if (m_timer > 3.0f)
 	{
-		DrawText("Press ENTER to continue", ((float)config.game.screenWidth / 2) - 200, (float)config.game.screenHeight - 60,32 , WHITE);
-		if (IsKeyPressed(KEY_ENTER))
+		DrawText("Press SPACE to continue", ((float)config.game.screenWidth / 2) - 200, (float)config.game.screenHeight - 60,32 , WHITE);
+		if (IsKeyPressed(KEY_SPACE))
 		{
 			m_app->GetGameStateManager()->PopState();
 			m_app->GetGameStateManager()->PushState("Play");

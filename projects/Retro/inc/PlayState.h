@@ -3,6 +3,8 @@
 #include "IGameState.h"
 #include "Config.h"
 #include "vector"
+#include "Player.h"
+#include "Ball.h"
 
 class Application;
 class Button;
@@ -35,12 +37,12 @@ public:
 	void UpdateShield();
 
 
-	void HandleBallWallCollision(Ball* b);
-	void HandlePlayerWallCollision(Player* p);
-	void HandleBallBrickCollision(Ball* b);
-	void HandleBallPlayerCollision(Player* p, Ball* b);
-	void HandleBrickPlayerCollision(Player* p);
-	void HandleBallShieldCollision(Ball* b);
+	void HandleBallWallCollision();
+	void HandlePlayerWallCollision();
+	void HandleBallBrickCollision();
+	void HandleBallPlayerCollision();
+	void HandleBrickPlayerCollision();
+	void HandleBallShieldCollision();
 
 	bool CheckWin();
 
@@ -48,8 +50,8 @@ protected:
 private:
 
 	Application* m_app;
-	Player* player;
-	Ball* ball;
+	Player player;
+	Ball ball;
 	Brick* bricks[Config::Game::NUM_ROWS][Config::Game::NUM_COLS];
 	Rectangle shield;
 
